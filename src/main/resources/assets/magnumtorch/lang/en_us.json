@@ -1,0 +1,6 @@
+{
+  "block.magnumtorch.diamond_magnum_torch": "Diamond Magnum Torch",
+  "block.magnumtorch.emerald_magnum_torch": "Emerald Magnum Torch",
+  "block.magnumtorch.amethyst_magnum_torch": "Amethyst Magnum Torch",
+  "block.magnumtorch.magnum_torch.info": "Prevents mob spawns of type(s): %s"
+}
