@@ -4,13 +4,13 @@ import fuzs.magnumtorch.MagnumTorch;
 import fuzs.magnumtorch.config.ServerConfig;
 import fuzs.magnumtorch.registry.ModRegistry;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.BlockGetter;
@@ -18,6 +18,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -33,7 +34,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 public class MagnumTorchBlock extends Block implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
@@ -64,7 +64,7 @@ public class MagnumTorchBlock extends Block implements SimpleWaterloggedBlock {
         if (p_153739_.getValue(WATERLOGGED)) {
             p_153742_.scheduleTick(p_153743_, Fluids.WATER, Fluids.WATER.getTickDelay(p_153742_));
         }
-        return super.updateShape(p_153739_, p_153740_, p_153741_, p_153742_, p_153743_, p_153744_);
+        return p_153740_ == Direction.DOWN && !this.canSurvive(p_153739_, p_153742_, p_153743_) ? Blocks.AIR.defaultBlockState() : super.updateShape(p_153739_, p_153740_, p_153741_, p_153742_, p_153743_, p_153744_);
     }
 
     @Override
@@ -92,15 +92,20 @@ public class MagnumTorchBlock extends Block implements SimpleWaterloggedBlock {
     }
 
     @Override
-    public void appendHoverText(ItemStack p_56193_, @Nullable BlockGetter p_56194_, List<Component> p_56195_, TooltipFlag p_56196_) {
-        super.appendHoverText(p_56193_, p_56194_, p_56195_, p_56196_);
-        if (p_56194_ == null) return;
-        Set<MobCategory> mobCategories = getTorchConfig(this).mobCategories;
-        if (!mobCategories.isEmpty()) {
-            p_56195_.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info", mobCategories.stream()
-                    .map(category -> new TextComponent(category.getName()).withStyle(ChatFormatting.GRAY))
+    public void appendHoverText(ItemStack p_56193_, @Nullable BlockGetter p_56194_, List<Component> tooltip, TooltipFlag p_56196_) {
+        super.appendHoverText(p_56193_, p_56194_, tooltip, p_56196_);
+        if (p_56194_ == null || !p_56196_.isAdvanced()) return;
+        if (!Screen.hasShiftDown()) {
+            tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info", new TranslatableComponent("block.magnumtorch.magnum_torch.info.shift").withStyle(ChatFormatting.YELLOW)).withStyle(ChatFormatting.GRAY));
+        } else {
+            ServerConfig.TorchConfig config = getTorchConfig(this);
+            tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.mob_types", config.mobCategories.stream()
+                    .map(category -> new TextComponent(category.name()).withStyle(ChatFormatting.GRAY))
                     .reduce((o1, o2) -> o1.append(", ").append(o2))
                     .orElse(new TextComponent(""))).withStyle(ChatFormatting.GRAY));
+            tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.shape_type", config.shapeType));
+            tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.horizontal_range", config.horizontalRange));
+            tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.vertical_range", config.verticalRange));
         }
     }
 

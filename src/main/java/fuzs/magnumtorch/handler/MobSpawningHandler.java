@@ -50,6 +50,7 @@ public class MobSpawningHandler {
         int dimX = Math.abs(center.getX() - pos.getX());
         int dimY = Math.abs(center.getY() - pos.getY());
         int dimZ = Math.abs(center.getZ() - pos.getZ());
+        // TODO check formulas actually work
         return switch (shapeType) {
             case ELLIPSOID -> {
                 yield (dimX * dimX + dimZ * dimZ) / (float) (horizontalRange * horizontalRange) + (dimY * dimY) / (float) (verticalRange * verticalRange) <= 1.0;
