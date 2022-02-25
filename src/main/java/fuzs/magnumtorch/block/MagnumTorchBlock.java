@@ -3,8 +3,8 @@ package fuzs.magnumtorch.block;
 import fuzs.magnumtorch.MagnumTorch;
 import fuzs.magnumtorch.config.ServerConfig;
 import fuzs.magnumtorch.registry.ModRegistry;
+import fuzs.puzzleslib.proxy.IProxy;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -94,18 +94,18 @@ public class MagnumTorchBlock extends Block implements SimpleWaterloggedBlock {
     @Override
     public void appendHoverText(ItemStack p_56193_, @Nullable BlockGetter p_56194_, List<Component> tooltip, TooltipFlag p_56196_) {
         super.appendHoverText(p_56193_, p_56194_, tooltip, p_56196_);
-        if (p_56194_ == null || !p_56196_.isAdvanced()) return;
-        if (!Screen.hasShiftDown()) {
+        if (p_56194_ == null) return;
+        if (!IProxy.INSTANCE.hasShiftDown()) {
             tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info", new TranslatableComponent("block.magnumtorch.magnum_torch.info.shift").withStyle(ChatFormatting.YELLOW)).withStyle(ChatFormatting.GRAY));
         } else {
             ServerConfig.TorchConfig config = getTorchConfig(this);
             tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.mob_types", config.mobCategories.stream()
-                    .map(category -> new TextComponent(category.name()).withStyle(ChatFormatting.GRAY))
+                    .map(category -> new TextComponent(category.name()).withStyle(ChatFormatting.YELLOW))
                     .reduce((o1, o2) -> o1.append(", ").append(o2))
                     .orElse(new TextComponent(""))).withStyle(ChatFormatting.GRAY));
-            tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.shape_type", config.shapeType));
-            tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.horizontal_range", config.horizontalRange));
-            tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.vertical_range", config.verticalRange));
+            tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.shape_type", new TextComponent(config.shapeType.name()).withStyle(ChatFormatting.GOLD)).withStyle(ChatFormatting.GRAY));
+            tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.horizontal_range", new TextComponent(String.valueOf(config.horizontalRange)).withStyle(ChatFormatting.LIGHT_PURPLE)).withStyle(ChatFormatting.GRAY));
+            tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.vertical_range", new TextComponent(String.valueOf(config.verticalRange)).withStyle(ChatFormatting.LIGHT_PURPLE)).withStyle(ChatFormatting.GRAY));
         }
     }
 

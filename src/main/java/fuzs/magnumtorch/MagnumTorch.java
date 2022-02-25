@@ -2,6 +2,7 @@ package fuzs.magnumtorch;
 
 import fuzs.magnumtorch.config.ServerConfig;
 import fuzs.magnumtorch.data.ModBlockTagsProvider;
+import fuzs.magnumtorch.data.ModLootTableProvider;
 import fuzs.magnumtorch.data.ModRecipeProvider;
 import fuzs.magnumtorch.handler.MobSpawningHandler;
 import fuzs.magnumtorch.registry.ModRegistry;
@@ -45,6 +46,7 @@ public class MagnumTorch {
         DataGenerator generator = evt.getGenerator();
         final ExistingFileHelper existingFileHelper = evt.getExistingFileHelper();
         generator.addProvider(new ModBlockTagsProvider(generator, MOD_ID, existingFileHelper));
+        generator.addProvider(new ModLootTableProvider(generator, MOD_ID));
         generator.addProvider(new ModRecipeProvider(generator));
     }
 }

@@ -6,6 +6,7 @@ import fuzs.magnumtorch.registry.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
@@ -19,19 +20,18 @@ public class MobSpawningHandler {
     public void onCheckSpawn(final LivingSpawnEvent.CheckSpawn evt) {
         if (evt.getWorld().isClientSide()) return;
         PoiManager poiManager = ((ServerLevel) evt.getWorld()).getPoiManager();
-        LivingEntity entity = evt.getEntityLiving();
         BlockPos pos = new BlockPos(evt.getX(), evt.getY(), evt.getZ());
-        if (this.isSpawnCancelled(poiManager, ModRegistry.DIAMOND_MAGNUM_TORCH_POI_TYPE.get(), entity, pos, MagnumTorch.CONFIG.server().diamond)) {
+        if (this.isSpawnCancelled(poiManager, evt.getEntityLiving(), pos, evt.getSpawnReason(), ModRegistry.DIAMOND_MAGNUM_TORCH_POI_TYPE.get(), MagnumTorch.CONFIG.server().diamond)) {
             evt.setResult(Event.Result.DENY);
-        } else if (this.isSpawnCancelled(poiManager, ModRegistry.EMERALD_MAGNUM_TORCH_POI_TYPE.get(), entity, pos, MagnumTorch.CONFIG.server().emerald)) {
+        } else if (this.isSpawnCancelled(poiManager, evt.getEntityLiving(), pos, evt.getSpawnReason(), ModRegistry.EMERALD_MAGNUM_TORCH_POI_TYPE.get(), MagnumTorch.CONFIG.server().emerald)) {
             evt.setResult(Event.Result.DENY);
-        } else if (this.isSpawnCancelled(poiManager, ModRegistry.AMETHYST_MAGNUM_TORCH_POI_TYPE.get(), entity, pos, MagnumTorch.CONFIG.server().amethyst)) {
+        } else if (this.isSpawnCancelled(poiManager, evt.getEntityLiving(), pos, evt.getSpawnReason(), ModRegistry.AMETHYST_MAGNUM_TORCH_POI_TYPE.get(), MagnumTorch.CONFIG.server().amethyst)) {
             evt.setResult(Event.Result.DENY);
         }
     }
 
-    private boolean isSpawnCancelled(PoiManager poiManager, PoiType poiType, LivingEntity entity, BlockPos pos, ServerConfig.TorchConfig config) {
-        return this.isAffected(entity, config) && this.anyInRange(poiManager, poiType, pos, config);
+    private boolean isSpawnCancelled(PoiManager poiManager, LivingEntity entity, BlockPos pos, MobSpawnType spawnType, PoiType poiType, ServerConfig.TorchConfig config) {
+        return config.blockedSpawnTypes.contains(spawnType) && this.isAffected(entity, config) && this.anyInRange(poiManager, poiType, pos, config);
     }
 
     private boolean isAffected(LivingEntity entity, ServerConfig.TorchConfig config) {
@@ -50,16 +50,15 @@ public class MobSpawningHandler {
         int dimX = Math.abs(center.getX() - pos.getX());
         int dimY = Math.abs(center.getY() - pos.getY());
         int dimZ = Math.abs(center.getZ() - pos.getZ());
-        // TODO check formulas actually work
         return switch (shapeType) {
             case ELLIPSOID -> {
                 yield (dimX * dimX + dimZ * dimZ) / (float) (horizontalRange * horizontalRange) + (dimY * dimY) / (float) (verticalRange * verticalRange) <= 1.0;
             }
             case CYLINDER -> {
-                yield (dimX * dimX + dimZ * dimZ) / (float) (horizontalRange * horizontalRange) + dimY / (float) verticalRange <= 1.0;
+                yield dimX * dimX + dimZ * dimZ <= horizontalRange * horizontalRange && dimY <= verticalRange;
             }
             case CUBOID -> {
-                yield (dimX + dimZ) / (float) horizontalRange + dimY / (float) verticalRange <= 1.0;
+                yield dimX <= horizontalRange && dimZ <= horizontalRange && dimY <= verticalRange;
             }
         };
     }
