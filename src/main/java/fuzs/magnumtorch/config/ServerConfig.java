@@ -52,9 +52,10 @@ public class ServerConfig extends AbstractConfig {
         @Config(description = "Range for preventing mob spawns on y-dimension.")
         @Config.IntRange(min = 0)
         public int verticalRange;
+        // do not include event type as it will break raids
         @Config(description = "Types of mob spawns to block. By default this is configured to only affect natural spawns occurring without player interaction.")
         @Config.AllowedValues(values = {"NATURAL", "CHUNK_GENERATION", "SPAWNER", "STRUCTURE", "BREEDING", "MOB_SUMMONED", "JOCKEY", "EVENT", "CONVERSION", "REINFORCEMENT", "TRIGGERED", "BUCKET", "SPAWN_EGG", "COMMAND", "DISPENSER", "PATROL"})
-        List<String> blockedSpawnTypesRaw = Stream.of(MobSpawnType.NATURAL, MobSpawnType.EVENT, MobSpawnType.REINFORCEMENT, MobSpawnType.PATROL).map(Enum::name).collect(Collectors.toList());
+        List<String> blockedSpawnTypesRaw = Stream.of(MobSpawnType.NATURAL, MobSpawnType.PATROL).map(Enum::name).collect(Collectors.toList());
 
         public Set<MobCategory> mobCategories;
         public Set<MobSpawnType> blockedSpawnTypes;
@@ -99,6 +100,8 @@ public class ServerConfig extends AbstractConfig {
             this.mobCategoryRaw = Stream.of(MobCategory.CREATURE).map(Enum::name).collect(Collectors.toList());
             this.horizontalRange = 64;
             this.verticalRange = 32;
+            // additionally includes event type to block wandering trader and llama spawning
+            this.blockedSpawnTypesRaw = Stream.of(MobSpawnType.NATURAL, MobSpawnType.EVENT, MobSpawnType.PATROL).map(Enum::name).collect(Collectors.toList());
         }
     }
 }
