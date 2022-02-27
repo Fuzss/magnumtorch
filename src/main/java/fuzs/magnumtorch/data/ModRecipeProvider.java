@@ -20,7 +20,7 @@ public class ModRecipeProvider extends RecipeProvider {
     protected void buildCraftingRecipes(Consumer<FinishedRecipe> p_176532_) {
         ShapedRecipeBuilder.shaped(ModRegistry.DIAMOND_MAGNUM_TORCH_BLOCK.get())
                 .define('L', ItemTags.LOGS)
-                .define('T', Blocks.TORCH)
+                .define('T', Items.FIRE_CHARGE)
                 .define('G', Items.GOLD_INGOT)
                 .define('#', Items.DIAMOND)
                 .pattern("GTG")
@@ -30,7 +30,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(p_176532_);
         ShapedRecipeBuilder.shaped(ModRegistry.EMERALD_MAGNUM_TORCH_BLOCK.get())
                 .define('L', ItemTags.LOGS)
-                .define('T', Blocks.TORCH)
+                .define('T', Items.FIRE_CHARGE)
                 .define('G', Items.GOLD_INGOT)
                 .define('#', Items.EMERALD)
                 .pattern("GTG")
@@ -40,7 +40,7 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(p_176532_);
         ShapedRecipeBuilder.shaped(ModRegistry.AMETHYST_MAGNUM_TORCH_BLOCK.get())
                 .define('L', ItemTags.LOGS)
-                .define('T', Blocks.TORCH)
+                .define('T', Items.FIRE_CHARGE)
                 .define('G', Items.GOLD_INGOT)
                 .define('#', Items.AMETHYST_SHARD)
                 .pattern("GTG")

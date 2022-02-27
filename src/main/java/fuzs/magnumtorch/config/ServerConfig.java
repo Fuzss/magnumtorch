@@ -98,8 +98,9 @@ public class ServerConfig extends AbstractConfig {
         public AmethystConfig() {
             super("amethyst_torch");
             this.mobCategoryRaw = Stream.of(MobCategory.CREATURE).map(Enum::name).collect(Collectors.toList());
-            this.horizontalRange = 64;
-            this.verticalRange = 32;
+            this.shapeType = ShapeType.CUBOID;
+            this.horizontalRange = 128;
+            this.verticalRange = 64;
             // additionally includes event type to block wandering trader and llama spawning
             this.blockedSpawnTypesRaw = Stream.of(MobSpawnType.NATURAL, MobSpawnType.EVENT, MobSpawnType.PATROL).map(Enum::name).collect(Collectors.toList());
         }
