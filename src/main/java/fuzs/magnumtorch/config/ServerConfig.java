@@ -88,21 +88,21 @@ public class ServerConfig extends AbstractConfig {
     public static class EmeraldConfig extends TorchConfig {
         public EmeraldConfig() {
             super("emerald_torch");
-            this.mobCategoryRaw = Stream.of(MobCategory.AMBIENT, MobCategory.AXOLOTLS, MobCategory.WATER_AMBIENT, MobCategory.WATER_CREATURE, MobCategory.UNDERGROUND_WATER_CREATURE).map(Enum::name).collect(Collectors.toList());
-            this.horizontalRange = 64;
-            this.verticalRange = 32;
-        }
-    }
-
-    public static class AmethystConfig extends TorchConfig {
-        public AmethystConfig() {
-            super("amethyst_torch");
             this.mobCategoryRaw = Stream.of(MobCategory.CREATURE).map(Enum::name).collect(Collectors.toList());
             this.shapeType = ShapeType.CUBOID;
             this.horizontalRange = 128;
             this.verticalRange = 64;
             // additionally includes event type to block wandering trader and llama spawning
             this.blockedSpawnTypesRaw = Stream.of(MobSpawnType.NATURAL, MobSpawnType.EVENT, MobSpawnType.PATROL).map(Enum::name).collect(Collectors.toList());
+        }
+    }
+
+    public static class AmethystConfig extends TorchConfig {
+        public AmethystConfig() {
+            super("amethyst_torch");
+            this.mobCategoryRaw = Stream.of(MobCategory.AMBIENT, MobCategory.AXOLOTLS, MobCategory.WATER_AMBIENT, MobCategory.WATER_CREATURE, MobCategory.UNDERGROUND_WATER_CREATURE).map(Enum::name).collect(Collectors.toList());
+            this.horizontalRange = 64;
+            this.verticalRange = 32;
         }
     }
 }
