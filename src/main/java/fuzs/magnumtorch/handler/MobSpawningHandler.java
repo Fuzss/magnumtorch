@@ -4,11 +4,11 @@ import fuzs.magnumtorch.MagnumTorch;
 import fuzs.magnumtorch.config.ServerConfig;
 import fuzs.magnumtorch.registry.ModRegistry;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,7 +19,7 @@ public class MobSpawningHandler {
     @SubscribeEvent
     public void onCheckSpawn(final LivingSpawnEvent.CheckSpawn evt) {
         if (evt.getWorld().isClientSide()) return;
-        PoiManager poiManager = ((ServerLevel) evt.getWorld()).getPoiManager();
+        PoiManager poiManager = ((ServerLevelAccessor) evt.getWorld()).getLevel().getPoiManager();
         BlockPos pos = new BlockPos(evt.getX(), evt.getY(), evt.getZ());
         if (this.isSpawnCancelled(poiManager, evt.getEntityLiving(), pos, evt.getSpawnReason(), ModRegistry.DIAMOND_MAGNUM_TORCH_POI_TYPE.get(), MagnumTorch.CONFIG.server().diamond)) {
             evt.setResult(Event.Result.DENY);
