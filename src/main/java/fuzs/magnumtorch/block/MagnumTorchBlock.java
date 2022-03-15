@@ -30,6 +30,7 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -99,10 +100,24 @@ public class MagnumTorchBlock extends Block implements SimpleWaterloggedBlock {
             tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info", new TranslatableComponent("block.magnumtorch.magnum_torch.info.shift").withStyle(ChatFormatting.YELLOW)).withStyle(ChatFormatting.GRAY));
         } else {
             ServerConfig.TorchConfig config = getTorchConfig(this);
-            tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.mob_types", config.mobCategories.stream()
-                    .map(category -> new TextComponent(category.name()).withStyle(ChatFormatting.YELLOW))
-                    .reduce((o1, o2) -> o1.append(", ").append(o2))
-                    .orElse(new TextComponent(""))).withStyle(ChatFormatting.GRAY));
+            if (!config.mobCategories.isEmpty()) {
+                tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.mob_types", config.mobCategories.stream()
+                        .map(category -> new TextComponent(category.name()).withStyle(ChatFormatting.YELLOW))
+                        .reduce((o1, o2) -> o1.append(", ").append(o2))
+                        .orElse(new TextComponent(""))).withStyle(ChatFormatting.GRAY));
+            }
+            if (!config.mobBlacklist.isEmpty()) {
+                tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.blacklist", config.mobBlacklist.stream()
+                        .map(mob -> new TextComponent(ForgeRegistries.ENTITIES.getKey(mob).toString()).withStyle(ChatFormatting.AQUA))
+                        .reduce((o1, o2) -> o1.append(", ").append(o2))
+                        .orElse(new TextComponent(""))).withStyle(ChatFormatting.GRAY));
+            }
+            if (!config.mobWhitelist.isEmpty()) {
+                tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.whitelist", config.mobWhitelist.stream()
+                        .map(mob -> new TextComponent(ForgeRegistries.ENTITIES.getKey(mob).toString()).withStyle(ChatFormatting.AQUA))
+                        .reduce((o1, o2) -> o1.append(", ").append(o2))
+                        .orElse(new TextComponent(""))).withStyle(ChatFormatting.GRAY));
+            }
             tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.shape_type", new TextComponent(config.shapeType.name()).withStyle(ChatFormatting.GOLD)).withStyle(ChatFormatting.GRAY));
             tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.horizontal_range", new TextComponent(String.valueOf(config.horizontalRange)).withStyle(ChatFormatting.LIGHT_PURPLE)).withStyle(ChatFormatting.GRAY));
             tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.vertical_range", new TextComponent(String.valueOf(config.verticalRange)).withStyle(ChatFormatting.LIGHT_PURPLE)).withStyle(ChatFormatting.GRAY));

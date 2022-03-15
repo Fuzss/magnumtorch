@@ -5,6 +5,8 @@
   "block.magnumtorch.magnum_torch.info": "Hold %s for more information",
   "block.magnumtorch.magnum_torch.info.shift": "Shift",
   "block.magnumtorch.magnum_torch.info.mob_types": "Mob Type(s): %s",
+  "block.magnumtorch.magnum_torch.info.blacklist": "Blacklist: %s",
+  "block.magnumtorch.magnum_torch.info.whitelist": "Whitelist: %s",
   "block.magnumtorch.magnum_torch.info.shape_type": "Shape Type: %s",
   "block.magnumtorch.magnum_torch.info.horizontal_range": "Horizontal Range: %s",
   "block.magnumtorch.magnum_torch.info.vertical_range": "Vertical Range: %s"
