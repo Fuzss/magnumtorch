@@ -95,9 +95,10 @@ public class MagnumTorchBlock extends Block implements SimpleWaterloggedBlock {
     @Override
     public void appendHoverText(ItemStack p_56193_, @Nullable BlockGetter p_56194_, List<Component> tooltip, TooltipFlag p_56196_) {
         super.appendHoverText(p_56193_, p_56194_, tooltip, p_56196_);
+        tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info").withStyle(ChatFormatting.GRAY));
         if (p_56194_ == null) return;
         if (!IProxy.INSTANCE.hasShiftDown()) {
-            tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info", new TranslatableComponent("block.magnumtorch.magnum_torch.info.shift").withStyle(ChatFormatting.YELLOW)).withStyle(ChatFormatting.GRAY));
+            tooltip.add(new TranslatableComponent("block.magnumtorch.magnum_torch.info.more", new TranslatableComponent("block.magnumtorch.magnum_torch.info.shift").withStyle(ChatFormatting.YELLOW)).withStyle(ChatFormatting.GRAY));
         } else {
             ServerConfig.TorchConfig config = getTorchConfig(this);
             if (!config.mobCategories.isEmpty()) {

@@ -39,6 +39,7 @@ public class MagnumTorch {
     private static void registerHandlers() {
         MobSpawningHandler mobSpawningHandler = new MobSpawningHandler();
         MinecraftForge.EVENT_BUS.addListener(mobSpawningHandler::onCheckSpawn);
+        MinecraftForge.EVENT_BUS.addListener(mobSpawningHandler::onSpecialSpawn);
     }
 
     @SubscribeEvent

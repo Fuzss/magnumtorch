@@ -52,10 +52,9 @@ public class ServerConfig extends AbstractConfig {
         @Config(description = "Range for preventing mob spawns on y-dimension.")
         @Config.IntRange(min = 0)
         public int verticalRange;
-        // do not include event type as it will break raids
-        @Config(description = "Types of mob spawns to block. By default this is configured to only affect natural spawns occurring without player interaction.")
-        @Config.AllowedValues(values = {"NATURAL", "CHUNK_GENERATION", "SPAWNER", "STRUCTURE", "BREEDING", "MOB_SUMMONED", "JOCKEY", "EVENT", "CONVERSION", "REINFORCEMENT", "TRIGGERED", "BUCKET", "SPAWN_EGG", "COMMAND", "DISPENSER", "PATROL"})
-        List<String> blockedSpawnTypesRaw = Stream.of(MobSpawnType.NATURAL, MobSpawnType.PATROL).map(Enum::name).collect(Collectors.toList());
+        @Config(name = "blocked_spawn_types", description = {"Types of mob spawns to block (provided by vanilla, some seem a little arbitrary). By default this is configured to only affect natural spawns occurring without player interaction and to not disrupt any game events such as raids.", "NATURAL: monsters spawned during night time, cats in villages, phantoms in the sky", "SPAWNER: all kinds of mobs summoned by monster spawners", "STRUCTURE: zombified piglin from nether portals", "MOB_SUMMONED: iron golems from villagers", "JOCKEY: mobs spawned as a rider for another mob", "EVENT: mobs spawned by game events, mainly zombie sieges, raids, wandering trader visits", "REINFORCEMENT: zombie reinforcements spawned when a zombie is hurt", "PATROL: pillager patrols"})
+        @Config.AllowedValues(values = {"NATURAL", "SPAWNER", "STRUCTURE", "MOB_SUMMONED", "JOCKEY", "EVENT", "REINFORCEMENT", "PATROL"})
+        List<String> blockedSpawnTypesRaw;
 
         public Set<MobCategory> mobCategories;
         public Set<MobSpawnType> blockedSpawnTypes;
@@ -82,6 +81,8 @@ public class ServerConfig extends AbstractConfig {
             this.mobCategoryRaw = Stream.of(MobCategory.MONSTER).map(Enum::name).collect(Collectors.toList());
             this.horizontalRange = 64;
             this.verticalRange = 32;
+            // do not include event type by default as it will break raids, structure type is only for zombie pigmen from nether portals
+            this.blockedSpawnTypesRaw = Stream.of(MobSpawnType.NATURAL, MobSpawnType.PATROL, MobSpawnType.STRUCTURE, MobSpawnType.JOCKEY).map(Enum::name).collect(Collectors.toList());
         }
     }
 
@@ -93,7 +94,7 @@ public class ServerConfig extends AbstractConfig {
             this.horizontalRange = 128;
             this.verticalRange = 64;
             // additionally includes event type to block wandering trader and llama spawning
-            this.blockedSpawnTypesRaw = Stream.of(MobSpawnType.NATURAL, MobSpawnType.EVENT, MobSpawnType.PATROL).map(Enum::name).collect(Collectors.toList());
+            this.blockedSpawnTypesRaw = Stream.of(MobSpawnType.NATURAL, MobSpawnType.EVENT).map(Enum::name).collect(Collectors.toList());
         }
     }
 
@@ -103,6 +104,7 @@ public class ServerConfig extends AbstractConfig {
             this.mobCategoryRaw = Stream.of(MobCategory.AMBIENT, MobCategory.AXOLOTLS, MobCategory.WATER_AMBIENT, MobCategory.WATER_CREATURE, MobCategory.UNDERGROUND_WATER_CREATURE).map(Enum::name).collect(Collectors.toList());
             this.horizontalRange = 64;
             this.verticalRange = 32;
+            this.blockedSpawnTypesRaw = Stream.of(MobSpawnType.NATURAL).map(Enum::name).collect(Collectors.toList());
         }
     }
 }
