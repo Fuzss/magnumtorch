@@ -111,10 +111,10 @@ dependencies {
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
     // Quality of Life Mods
-//    runtimeOnly fg.deobf("curse.maven:catalogue-459701:3822882")
-//    runtimeOnly fg.deobf("curse.maven:bettermodsbutton-541584:3516115")
+    runtimeOnly fg.deobf("curse.maven:catalogue-459701:3873264")
+    runtimeOnly fg.deobf("fuzs.bettermodsbutton:bettermodsbutton-forge:4.0.1")
 //    runtimeOnly fg.deobf("curse.maven:configmenusforge-544048:3822820")
-//    runtimeOnly fg.deobf("curse.maven:configured-457570:3822820")
+    runtimeOnly fg.deobf("curse.maven:configured-457570:3872190")
 
     // Puzzles Lib
     implementation fg.deobf("fuzs.puzzleslib:puzzleslib-forge:${puzzlesVersion}")
@@ -249,7 +249,7 @@ publishing {
     repositories {
         maven {
             name = 'FuzsModResources'
-            url "file://${project.modResources}/maven"
+            url "file://" + project.hasProperty('modResources') ? "${project.findProperty('modResources')}/maven" : System.getenv('local_maven')
         }
     }
 }
@@ -272,7 +272,7 @@ signJar.mustRunAfter 'reobfJar'
 
 curseforge {
     if (!file('../CHANGELOG.md').canRead()) { throw new FileNotFoundException("Could not read changelog file") }
-    apiKey = project.findProperty('curseApiToken')
+    apiKey = project.hasProperty('curseApiToken') ? project.findProperty('curseApiToken') : ''
     project {
         id = projectCurseId
         changelogType = 'markdown'
@@ -299,7 +299,7 @@ curseforge {
 
 modrinth {
     if (!file('../CHANGELOG.md').canRead()) { throw new FileNotFoundException("Could not read changelog file") }
-    token = project.findProperty('modrinthApiToken')
+    token = project.hasProperty('modrinthApiToken') ? project.findProperty('modrinthApiToken') : ''
     projectId = projectModrinthId
     versionNumber = project.version
     versionName = "[FORGE] [${minecraftVersion}] ${rootProject.name}-v${modVersion}"
