@@ -4,6 +4,7 @@ import fuzs.magnumtorch.data.ModBlockTagsProvider;
 import fuzs.magnumtorch.data.ModLootTableProvider;
 import fuzs.magnumtorch.data.ModRecipeProvider;
 import fuzs.magnumtorch.handler.MobSpawningHandler;
+import fuzs.puzzleslib.core.CoreServices;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraftforge.common.MinecraftForge;
@@ -21,7 +22,7 @@ public class MagnumTorchForge {
 
     @SubscribeEvent
     public static void onConstructMod(final FMLConstructModEvent evt) {
-        MagnumTorch.onConstructMod();
+        CoreServices.FACTORIES.modConstructor(MagnumTorch.MOD_ID).accept(new MagnumTorch());
         registerHandlers();
     }
 

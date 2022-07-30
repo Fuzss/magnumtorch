@@ -20,27 +20,27 @@ public class MobSpawningHandler {
         if (levelAccessor.isClientSide()) return true;
         PoiManager poiManager = ((ServerLevelAccessor) levelAccessor).getLevel().getPoiManager();
         BlockPos pos = new BlockPos(posX, posY, posZ);
-        if (this.isSpawnCancelled(poiManager, entityType, pos, spawnType, ModRegistry.DIAMOND_MAGNUM_TORCH_POI_TYPE.getResourceKey(), MagnumTorch.CONFIG.server().diamond)) {
+        if (this.isSpawnCancelled(poiManager, entityType, pos, spawnType, ModRegistry.DIAMOND_MAGNUM_TORCH_POI_TYPE.getResourceKey(), MagnumTorch.CONFIG.get(ServerConfig.class).diamond)) {
             return false;
-        } else if (this.isSpawnCancelled(poiManager, entityType, pos, spawnType, ModRegistry.EMERALD_MAGNUM_TORCH_POI_TYPE.getResourceKey(), MagnumTorch.CONFIG.server().emerald)) {
+        } else if (this.isSpawnCancelled(poiManager, entityType, pos, spawnType, ModRegistry.EMERALD_MAGNUM_TORCH_POI_TYPE.getResourceKey(), MagnumTorch.CONFIG.get(ServerConfig.class).emerald)) {
             return false;
-        } else if (this.isSpawnCancelled(poiManager, entityType, pos, spawnType, ModRegistry.AMETHYST_MAGNUM_TORCH_POI_TYPE.getResourceKey(), MagnumTorch.CONFIG.server().amethyst)) {
+        } else if (this.isSpawnCancelled(poiManager, entityType, pos, spawnType, ModRegistry.AMETHYST_MAGNUM_TORCH_POI_TYPE.getResourceKey(), MagnumTorch.CONFIG.get(ServerConfig.class).amethyst)) {
             return false;
         }
         return true;
     }
 
-    private boolean isSpawnCancelled(PoiManager poiManager, EntityType<?> entityType, BlockPos pos, MobSpawnType spawnType, ResourceKey<PoiType> poiType, ServerConfig.TorchConfig config) {
+    private boolean isSpawnCancelled(PoiManager poiManager, EntityType<?> entityType, BlockPos pos, MobSpawnType spawnType, ResourceKey<PoiType> poiType, ServerConfig.MagnumTorchConfig config) {
         return config.blockedSpawnTypes.contains(spawnType) && this.isAffected(entityType, config) && this.anyInRange(poiManager, poiType, pos, config);
     }
 
-    private boolean isAffected(EntityType<?> entityType, ServerConfig.TorchConfig config) {
+    private boolean isAffected(EntityType<?> entityType, ServerConfig.MagnumTorchConfig config) {
         if (config.mobWhitelist.contains(entityType)) return false;
         if (config.mobCategories.contains(entityType.getCategory())) return true;
         return config.mobBlacklist.contains(entityType);
     }
 
-    private boolean anyInRange(PoiManager poiManager, ResourceKey<PoiType> poiType, BlockPos pos, ServerConfig.TorchConfig config) {
+    private boolean anyInRange(PoiManager poiManager, ResourceKey<PoiType> poiType, BlockPos pos, ServerConfig.MagnumTorchConfig config) {
         // range based on cuboid
         Stream<BlockPos> all = poiManager.findAll(poiType1 -> poiType1.is(poiType), pos1 -> true, pos, (int) Math.ceil(Math.sqrt(config.horizontalRange * config.horizontalRange + config.verticalRange * config.verticalRange)), PoiManager.Occupancy.ANY);
         return all.anyMatch(center -> this.isInRange(center, pos, config.horizontalRange, config.verticalRange, config.shapeType));

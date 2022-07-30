@@ -98,7 +98,7 @@ public class MagnumTorchBlock extends Block implements SimpleWaterloggedBlock {
         if (!Proxy.INSTANCE.hasShiftDown()) {
             tooltip.add(Component.translatable("block.magnumtorch.magnum_torch.info.more", Component.translatable("block.magnumtorch.magnum_torch.info.shift").withStyle(ChatFormatting.YELLOW)).withStyle(ChatFormatting.GRAY));
         } else {
-            ServerConfig.TorchConfig config = getTorchConfig(this);
+            ServerConfig.MagnumTorchConfig config = getTorchConfig(this);
             if (!config.mobCategories.isEmpty()) {
                 tooltip.add(Component.translatable("block.magnumtorch.magnum_torch.info.mob_types", config.mobCategories.stream()
                         .map(category -> Component.literal(category.name()).withStyle(ChatFormatting.YELLOW))
@@ -123,10 +123,10 @@ public class MagnumTorchBlock extends Block implements SimpleWaterloggedBlock {
         }
     }
 
-    public static ServerConfig.TorchConfig getTorchConfig(MagnumTorchBlock block) {
-        if (block == ModRegistry.DIAMOND_MAGNUM_TORCH_BLOCK.get()) return MagnumTorch.CONFIG.server().diamond;
-        if (block == ModRegistry.EMERALD_MAGNUM_TORCH_BLOCK.get()) return MagnumTorch.CONFIG.server().emerald;
-        if (block == ModRegistry.AMETHYST_MAGNUM_TORCH_BLOCK.get()) return MagnumTorch.CONFIG.server().amethyst;
+    public static ServerConfig.MagnumTorchConfig getTorchConfig(MagnumTorchBlock block) {
+        if (block == ModRegistry.DIAMOND_MAGNUM_TORCH_BLOCK.get()) return MagnumTorch.CONFIG.get(ServerConfig.class).diamond;
+        if (block == ModRegistry.EMERALD_MAGNUM_TORCH_BLOCK.get()) return MagnumTorch.CONFIG.get(ServerConfig.class).emerald;
+        if (block == ModRegistry.AMETHYST_MAGNUM_TORCH_BLOCK.get()) return MagnumTorch.CONFIG.get(ServerConfig.class).amethyst;
         throw new IllegalStateException("Torch type does not exist");
     }
 }
