@@ -1,7 +1,7 @@
 package fuzs.magnumtorch;
 
 import fuzs.magnumtorch.config.ServerConfig;
-import fuzs.magnumtorch.registry.ModRegistry;
+import fuzs.magnumtorch.init.ModRegistry;
 import fuzs.puzzleslib.config.ConfigHolder;
 import fuzs.puzzleslib.core.CoreServices;
 import fuzs.puzzleslib.core.ModConstructor;

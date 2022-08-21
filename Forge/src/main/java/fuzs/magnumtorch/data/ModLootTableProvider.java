@@ -2,7 +2,7 @@ package fuzs.magnumtorch.data;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Pair;
-import fuzs.magnumtorch.registry.ModRegistry;
+import fuzs.magnumtorch.init.ModRegistry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.data.loot.LootTableProvider;

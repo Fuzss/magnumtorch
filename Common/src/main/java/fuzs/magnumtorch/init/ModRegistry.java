@@ -1,4 +1,4 @@
-package fuzs.magnumtorch.registry;
+package fuzs.magnumtorch.init;
 
 import fuzs.magnumtorch.MagnumTorch;
 import fuzs.magnumtorch.block.MagnumTorchBlock;

@@ -2,7 +2,7 @@ package fuzs.magnumtorch.block;
 
 import fuzs.magnumtorch.MagnumTorch;
 import fuzs.magnumtorch.config.ServerConfig;
-import fuzs.magnumtorch.registry.ModRegistry;
+import fuzs.magnumtorch.init.ModRegistry;
 import fuzs.puzzleslib.proxy.Proxy;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;

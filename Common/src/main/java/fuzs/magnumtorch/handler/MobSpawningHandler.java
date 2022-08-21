@@ -2,7 +2,7 @@ package fuzs.magnumtorch.handler;
 
 import fuzs.magnumtorch.MagnumTorch;
 import fuzs.magnumtorch.config.ServerConfig;
-import fuzs.magnumtorch.registry.ModRegistry;
+import fuzs.magnumtorch.init.ModRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;

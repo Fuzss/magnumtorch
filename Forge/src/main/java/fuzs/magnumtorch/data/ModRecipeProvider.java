@@ -1,13 +1,12 @@
 package fuzs.magnumtorch.data;
 
-import fuzs.magnumtorch.registry.ModRegistry;
+import fuzs.magnumtorch.init.ModRegistry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Blocks;
 
 import java.util.function.Consumer;
 
