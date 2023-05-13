@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v4.2.2-1.19.2] - 2023-05-13
+### Changed
+- Back-ported the latest version from 1.19.3, overhauling how entity spawns are prevented
+
 ## [v4.2.1-1.19.2] - 2023-01-18
 ### Added
 - Magnum torches are now found in a new creative mode tab

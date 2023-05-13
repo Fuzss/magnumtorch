@@ -223,7 +223,7 @@ curseforge {
                 requiredDependency 'puzzles-lib'
             }
         }
-        addArtifact sourcesJar
+//        addArtifact sourcesJar
     }
     options {
 //        debug = true
@@ -245,7 +245,7 @@ modrinth {
         gameVersions.add it.trim()
     }
     loaders.add 'fabric'
-    additionalFiles.add file("${project.buildDir}/libs/${project.archivesBaseName}-${project.version}-sources.jar")
+//    additionalFiles.add file("${project.buildDir}/libs/${project.archivesBaseName}-${project.version}-sources.jar")
     dependencies {
         required.project 'fabric-api'
         required.project 'forge-config-api-port'
