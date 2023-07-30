@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog].
 
+## [v4.2.3-1.19.2] - 2023-07-30
+### Fixed
+- Reworked how entity spawns are prevented on Fabric to match Forge in an effort to prevent a potential memory leak issue
+
 ## [v4.2.2-1.19.2] - 2023-05-13
 ### Changed
 - Back-ported the latest version from 1.19.3, overhauling how entity spawns are prevented

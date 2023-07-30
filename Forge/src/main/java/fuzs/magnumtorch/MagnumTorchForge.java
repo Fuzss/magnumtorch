@@ -8,6 +8,7 @@ import fuzs.magnumtorch.world.entity.SpawnDataMob;
 import fuzs.puzzleslib.core.CommonFactories;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.data.event.GatherDataEvent;
@@ -29,7 +30,8 @@ public class MagnumTorchForge {
     private static void registerHandlers() {
         MinecraftForge.EVENT_BUS.addListener((final EntityJoinLevelEvent evt) -> {
             if (evt.getLevel().isClientSide) return;
-            if (!MobSpawningHandler.onLivingSpawn(evt.getEntity(), (ServerLevel) evt.getLevel(), !evt.loadedFromDisk() && evt.getEntity() instanceof SpawnDataMob mob ? mob.puzzleslib$getSpawnType() : null)) {
+            MobSpawnType spawnType = !evt.loadedFromDisk() && evt.getEntity() instanceof SpawnDataMob mob ? mob.puzzleslib$getSpawnType() : null;
+            if (!MobSpawningHandler.onLivingSpawn(evt.getEntity(), (ServerLevel) evt.getLevel(), spawnType)) {
                 evt.setCanceled(true);
             }
         });

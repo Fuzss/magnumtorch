@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_17",
+  "package": "fuzs.magnumtorch.mixin",
+  "refmap": "magnumtorch.refmap.json",
+  "plugin": "fuzs.magnumtorch.mixin.ModMixinConfigPlugin",
+  "mixins": [
+    "PersistentEntitySectionManagerFabricMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
